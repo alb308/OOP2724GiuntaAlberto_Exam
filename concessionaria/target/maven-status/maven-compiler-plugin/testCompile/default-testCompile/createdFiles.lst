@@ -1,0 +1,9 @@
+com\concessionaria\test\CompositePatternTest.class
+com\concessionaria\test\ValidatoreInputTest.class
+com\concessionaria\test\DetailedDebugTest.class
+com\concessionaria\test\ModelTest.class
+com\concessionaria\test\VeicoloFactoryTest.class
+com\concessionaria\test\FileManagerTest.class
+com\concessionaria\test\GestioneInventarioTest.class
+com\concessionaria\test\ExceptionHandlerTest.class
+com\concessionaria\test\IteratorTest.class
