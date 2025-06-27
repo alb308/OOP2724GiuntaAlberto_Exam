@@ -1,4 +1,3 @@
-// File: FileManager.java
 package com.concessionaria.io;
 
 import com.concessionaria.model.*;
@@ -52,7 +51,7 @@ public class FileManager {
             
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Errore nel salvataggio", e);
-            throw new ConcessionariaException("Impossibile salvare l'inventario");
+            throw new ConcessionariaException("Impossibile salvare l'inventario", e);
         }
     }
     
@@ -91,7 +90,7 @@ public class FileManager {
             
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Errore nel caricamento", e);
-            throw new ConcessionariaException("Impossibile caricare l'inventario");
+            throw new ConcessionariaException("Impossibile caricare l'inventario", e);
         }
         
         return veicoli;
@@ -125,8 +124,8 @@ public class FileManager {
                 Moto moto = (Moto) veicolo;
                 String cilindrata = infoExtra[0].split(":")[1];
                 moto.setCilindrata(Integer.parseInt(cilindrata));
-                String tipo = infoExtra[1].split(":")[1];
-                moto.setTipoMoto(tipo);
+                String tipoMoto = infoExtra[1].split(":")[1];  // CAMBIATO: era 'tipo', ora è 'tipoMoto'
+                moto.setTipoMoto(tipoMoto);
             } else if (veicolo instanceof Furgone && infoExtra.length >= 2) {
                 Furgone furgone = (Furgone) veicolo;
                 String capacita = infoExtra[0].split(":")[1];
@@ -144,18 +143,4 @@ public class FileManager {
         // Rimuovi caratteri che potrebbero creare problemi nel CSV
         return input.replace(SEPARATORE, " ").replace("\n", " ").replace("\r", " ");
     }
-}");
-            
-            for (Veicolo v : veicoli) {
-                StringBuilder sb = new StringBuilder();
-                sb.append(v.getClass().getSimpleName().toUpperCase()).append(SEPARATORE);
-                sb.append(sanitizza(v.getMarca())).append(SEPARATORE);
-                sb.append(sanitizza(v.getModello())).append(SEPARATORE);
-                sb.append(v.getAnno()).append(SEPARATORE);
-                sb.append(v.getPrezzo()).append(SEPARATORE);
-                sb.append(sanitizza(v.getTarga())).append(SEPARATORE);
-                
-                // Info specifiche per tipo
-                if (v instanceof Auto) {
-                    Auto a = (Auto) v;
-                    sb.append("Porte:
+}

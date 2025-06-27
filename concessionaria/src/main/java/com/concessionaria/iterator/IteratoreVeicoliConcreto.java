@@ -20,4 +20,13 @@ public class IteratoreVeicoliConcreto implements IteratoreInventario {
     @Override
     public Veicolo next() {
         if (!hasNext()) {
-            throw new NoSuch
+            throw new NoSuchElementException("Non ci sono più elementi");
+        }
+        return veicoli.get(posizioneCorrente++);
+    }
+    
+    @Override
+    public void reset() {
+        posizioneCorrente = 0;
+    }
+}
