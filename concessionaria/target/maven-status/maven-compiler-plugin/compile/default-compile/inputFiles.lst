@@ -1,4 +1,3 @@
-C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\test\VeicoloFactoryTest.java
 C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\io\FileManager.java
 C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\iterator\IteratoreVeicoliConcreto.java
 C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\factory\VeicoloFactory.java
@@ -9,7 +8,6 @@ C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\m
 C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\composite\VeicoloFoglia.java
 C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\model\Auto.java
 C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\model\Moto.java
-C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\test\GestioneInventarioTest.java
 C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\util\ValidatoreInput.java
 C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\composite\CategoriaVeicoli.java
 C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\iterator\IteratoreFiltrato.java
@@ -17,7 +15,5 @@ C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\m
 C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\exception\ExceptionHandler.java
 C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\iterator\InventarioIterabile.java
 C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\model\Furgone.java
-C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\test\ValidatoreInputTest.java
 C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\service\GestioneInventario.java
-C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\test\CompositePatternTest.java
 C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\src\main\java\com\concessionaria\ui\MenuPrincipale.java
