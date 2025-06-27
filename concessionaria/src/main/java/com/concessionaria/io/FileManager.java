@@ -16,10 +16,30 @@ public class FileManager {
     private static final String TEMP_SUFFIX = ".tmp";
     private static final int MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB max
     private static final Set<String> ALLOWED_EXTENSIONS = Set.of(".csv", ".txt");
+    private static final SecureRandom secureRandom = new SecureRandom();
     
+    // Metodi statici per l'uso diretto dalla classe Main
+    public static void salvaInventario(List<Veicolo> veicoli) throws ConcessionariaException {
+        FileManager fm = new FileManager();
+        try {
+            fm.salvaInventarioInterno(veicoli);
+        } catch (IOException e) {
+            throw new ConcessionariaException("Errore durante il salvataggio", e);
+        }
+    }
+    
+    public static List<Veicolo> caricaInventario() throws ConcessionariaException {
+        FileManager fm = new FileManager();
+        try {
+            return fm.caricaInventarioInterno();
+        } catch (IOException e) {
+            throw new ConcessionariaException("Errore durante il caricamento", e);
+        }
+    }
+    
+    // Membri di istanza
     private final String fileName;
     private final Path dataDirectory;
-    private final SecureRandom secureRandom = new SecureRandom();
     
     public FileManager() {
         this(DEFAULT_FILE_NAME);
@@ -52,13 +72,13 @@ public class FileManager {
             return dir;
         } catch (IOException e) {
             logger.severe("Impossibile creare directory sicura: " + e.getMessage());
-            throw new ConcessionariaException("Errore nell'inizializzazione del sistema di storage", e);
+            throw new RuntimeException("Errore nell'inizializzazione del sistema di storage", e);
         }
     }
     
     private String sanitizeFileName(String fileName) {
         if (fileName == null || fileName.trim().isEmpty()) {
-            throw new ConcessionariaException("Nome file non valido");
+            throw new RuntimeException("Nome file non valido");
         }
         
         // Rimuovi caratteri pericolosi e path traversal
@@ -103,7 +123,8 @@ public class FileManager {
         return false;
     }
     
-    public void salvaInventario(List<Veicolo> veicoli) throws IOException {
+    // Metodo interno per il salvataggio
+    private void salvaInventarioInterno(List<Veicolo> veicoli) throws IOException, ConcessionariaException {
         if (veicoli == null) {
             throw new ConcessionariaException("Lista veicoli non può essere null");
         }
@@ -168,7 +189,8 @@ public class FileManager {
         }
     }
     
-    public List<Veicolo> caricaInventario() throws IOException {
+    // Metodo interno per il caricamento
+    private List<Veicolo> caricaInventarioInterno() throws IOException, ConcessionariaException {
         Path filePath = dataDirectory.resolve(fileName);
         
         if (!Files.exists(filePath)) {
@@ -221,8 +243,11 @@ public class FileManager {
                     veicoli.add(veicolo);
                     targheCaricate.add(veicolo.getTarga());
                     
-                } catch (Exception e) {
+                } catch (ConcessionariaException e) {
                     logger.warning("Errore alla linea " + lineNumber + ": " + e.getMessage());
+                    // Continua con le altre linee invece di fallire completamente
+                } catch (Exception e) {
+                    logger.warning("Errore generico alla linea " + lineNumber + ": " + e.getMessage());
                     // Continua con le altre linee invece di fallire completamente
                 }
             }
@@ -264,13 +289,14 @@ public class FileManager {
         
         if (veicolo instanceof Auto) {
             Auto auto = (Auto) veicolo;
-            dettagli = String.format("%d porte;%d posti", auto.getNumeroPorte(), auto.getNumeroPosti());
+            dettagli = String.format("%d porte;%s", auto.getNumeroPorte(), auto.getTipoCambio());
         } else if (veicolo instanceof Moto) {
             Moto moto = (Moto) veicolo;
             dettagli = String.format("%d cc;%s", moto.getCilindrata(), moto.getTipoMoto());
         } else if (veicolo instanceof Furgone) {
             Furgone furgone = (Furgone) veicolo;
-            dettagli = String.format("%.2f mc;%.2f kg", furgone.getVolumeCarico(), furgone.getPesoMassimo());
+            dettagli = String.format("%.2f mc;%s", furgone.getCapacitaCarico(), 
+                      furgone.isCassoneChiuso() ? "Chiuso" : "Aperto");
         }
         
         // Escapa i valori CSV
@@ -299,7 +325,7 @@ public class FileManager {
         return value;
     }
     
-    private Veicolo csvToVeicolo(String line) {
+    private Veicolo csvToVeicolo(String line) throws ConcessionariaException {
         String[] parts = parseCsvLine(line);
         
         if (parts.length < 7) {
@@ -314,15 +340,19 @@ public class FileManager {
         String targa = parts[5].trim();
         String dettagli = parts[6].trim();
         
-        switch (tipo.toLowerCase()) {
-            case "auto":
-                return parseAuto(marca, modello, anno, prezzo, targa, dettagli);
-            case "moto":
-                return parseMoto(marca, modello, anno, prezzo, targa, dettagli);
-            case "furgone":
-                return parseFurgone(marca, modello, anno, prezzo, targa, dettagli);
-            default:
-                throw new ConcessionariaException("Tipo veicolo non riconosciuto: " + tipo);
+        try {
+            switch (tipo.toLowerCase()) {
+                case "auto":
+                    return parseAuto(marca, modello, anno, prezzo, targa, dettagli);
+                case "moto":
+                    return parseMoto(marca, modello, anno, prezzo, targa, dettagli);
+                case "furgone":
+                    return parseFurgone(marca, modello, anno, prezzo, targa, dettagli);
+                default:
+                    throw new ConcessionariaException("Tipo veicolo non riconosciuto: " + tipo);
+            }
+        } catch (Exception e) {
+            throw new ConcessionariaException("Errore nella creazione del veicolo: " + e.getMessage(), e);
         }
     }
     
@@ -355,25 +385,29 @@ public class FileManager {
     
     private Auto parseAuto(String marca, String modello, int anno, double prezzo, String targa, String dettagli) {
         String[] dettagliParts = dettagli.split(";");
-        int numeroPorte = 4; // default
-        int numeroPosti = 5; // default
+        int numeroPorte = 5; // default
+        String tipoCambio = "Manuale"; // default
         
         if (dettagliParts.length >= 2) {
             try {
                 numeroPorte = Integer.parseInt(dettagliParts[0].replaceAll("[^0-9]", ""));
-                numeroPosti = Integer.parseInt(dettagliParts[1].replaceAll("[^0-9]", ""));
+                tipoCambio = dettagliParts[1].trim();
             } catch (NumberFormatException e) {
                 logger.warning("Dettagli auto non validi, uso valori default: " + dettagli);
             }
         }
         
-        return new Auto(marca, modello, anno, prezzo, targa, numeroPorte, numeroPosti);
+        Auto auto = new Auto(marca, modello, anno, prezzo);
+        auto.setTarga(targa);
+        auto.setNumeroPorte(numeroPorte);
+        auto.setTipoCambio(tipoCambio);
+        return auto;
     }
     
     private Moto parseMoto(String marca, String modello, int anno, double prezzo, String targa, String dettagli) {
         String[] dettagliParts = dettagli.split(";");
-        int cilindrata = 500; // default
-        String tipoMoto = "Standard"; // default
+        int cilindrata = 600; // default
+        String tipoMoto = "Naked"; // default
         
         if (dettagliParts.length >= 2) {
             try {
@@ -384,23 +418,32 @@ public class FileManager {
             }
         }
         
-        return new Moto(marca, modello, anno, prezzo, targa, cilindrata, tipoMoto);
+        Moto moto = new Moto(marca, modello, anno, prezzo);
+        moto.setTarga(targa);
+        moto.setCilindrata(cilindrata);
+        moto.setTipoMoto(tipoMoto);
+        return moto;
     }
     
     private Furgone parseFurgone(String marca, String modello, int anno, double prezzo, String targa, String dettagli) {
         String[] dettagliParts = dettagli.split(";");
-        double volumeCarico = 10.0; // default
-        double pesoMassimo = 1000.0; // default
+        double capacitaCarico = 10.0; // default
+        boolean cassoneChiuso = true; // default
         
         if (dettagliParts.length >= 2) {
             try {
-                volumeCarico = Double.parseDouble(dettagliParts[0].replaceAll("[^0-9.]", ""));
-                pesoMassimo = Double.parseDouble(dettagliParts[1].replaceAll("[^0-9.]", ""));
+                capacitaCarico = Double.parseDouble(dettagliParts[0].replaceAll("[^0-9.]", ""));
+                String tipoCarico = dettagliParts[1].trim();
+                cassoneChiuso = tipoCarico.equalsIgnoreCase("Chiuso");
             } catch (NumberFormatException e) {
                 logger.warning("Dettagli furgone non validi, uso valori default: " + dettagli);
             }
         }
         
-        return new Furgone(marca, modello, anno, prezzo, targa, volumeCarico, pesoMassimo);
+        Furgone furgone = new Furgone(marca, modello, anno, prezzo);
+        furgone.setTarga(targa);
+        furgone.setCapacitaCarico(capacitaCarico);
+        furgone.setCassoneChiuso(cassoneChiuso);
+        return furgone;
     }
 }

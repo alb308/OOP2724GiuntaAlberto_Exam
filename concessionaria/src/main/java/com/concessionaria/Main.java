@@ -99,13 +99,20 @@ public class Main {
     }
 
     private static int leggiScelta() {
-        try {
-            int scelta = scanner.nextInt();
-            scanner.nextLine(); // Consuma il newline
-            return scelta;
-        } catch (InputMismatchException e) {
-            scanner.nextLine(); // Pulisci il buffer
-            return -1;
+        while (true) {
+            try {
+                String input = scanner.nextLine().trim();
+                if (input.isEmpty()) {
+                    System.out.println("ERRORE: Inserire una scelta!");
+                    System.out.print("Scelta: ");
+                    continue;
+                }
+                int scelta = Integer.parseInt(input);
+                return scelta;
+            } catch (NumberFormatException e) {
+                System.out.println("ERRORE: Inserire un numero valido!");
+                System.out.print("Scelta: ");
+            }
         }
     }
 
@@ -148,17 +155,20 @@ public class Main {
         while (!annoValido) {
             System.out.print("Anno di immatricolazione: ");
             try {
-                anno = scanner.nextInt();
-                scanner.nextLine(); // Consuma newline
+                String input = scanner.nextLine().trim();
+                if (input.isEmpty()) {
+                    System.out.println("ERRORE: L'anno non può essere vuoto!");
+                    continue;
+                }
+                anno = Integer.parseInt(input);
                 
                 if (!ValidatoreInput.validaAnno(anno)) {
                     System.out.println("ERRORE: Anno non valido! Deve essere tra 1900 e l'anno corrente");
                 } else {
                     annoValido = true;
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("ERRORE: Inserire un numero valido!");
-                scanner.nextLine(); // Pulisci buffer
+            } catch (NumberFormatException e) {
+                System.out.println("ERRORE: Inserire un numero valido per l'anno!");
             }
         }
         
@@ -168,17 +178,20 @@ public class Main {
         while (!prezzoValido) {
             System.out.print("Prezzo: ");
             try {
-                prezzo = scanner.nextDouble();
-                scanner.nextLine(); // Consuma newline
+                String input = scanner.nextLine().trim();
+                if (input.isEmpty()) {
+                    System.out.println("ERRORE: Il prezzo non può essere vuoto!");
+                    continue;
+                }
+                prezzo = Double.parseDouble(input);
                 
                 if (!ValidatoreInput.validaPrezzo(prezzo)) {
                     System.out.println("ERRORE: Il prezzo deve essere maggiore di 0!");
                 } else {
                     prezzoValido = true;
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("ERRORE: Inserire un numero valido!");
-                scanner.nextLine(); // Pulisci buffer
+            } catch (NumberFormatException e) {
+                System.out.println("ERRORE: Inserire un numero valido per il prezzo!");
             }
         }
         
@@ -190,38 +203,149 @@ public class Main {
             if (veicolo instanceof Auto) {
                 Auto auto = (Auto) veicolo;
                 
-                System.out.print("Numero di porte (2/3/4/5): ");
-                int porte = scanner.nextInt();
-                scanner.nextLine();
-                auto.setNumeroPorte(porte);
+                // Numero di porte con validazione
+                int porte = 0;
+                boolean porteValide = false;
+                while (!porteValide) {
+                    System.out.print("Numero di porte (3/5): ");
+                    try {
+                        String input = scanner.nextLine().trim();
+                        if (input.isEmpty()) {
+                            System.out.println("ERRORE: Il numero di porte non può essere vuoto!");
+                            continue;
+                        }
+                        porte = Integer.parseInt(input);
+                        
+                        if (porte == 3 || porte == 5) {
+                            auto.setNumeroPorte(porte);
+                            porteValide = true;
+                        } else {
+                            System.out.println("ERRORE: Il numero di porte deve essere 3 o 5!");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("ERRORE: Inserire un numero valido (3 o 5)!");
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("ERRORE: " + e.getMessage());
+                    }
+                }
                 
-                System.out.print("Tipo cambio (Manuale/Automatico): ");
-                String cambio = scanner.nextLine().trim();
-                auto.setTipoCambio(cambio);
+                // Tipo cambio
+                String cambio = "";
+                boolean cambioValido = false;
+                while (!cambioValido) {
+                    System.out.print("Tipo cambio (Manuale/Automatico): ");
+                    cambio = scanner.nextLine().trim();
+                    
+                    if (cambio.isEmpty()) {
+                        System.out.println("ERRORE: Il tipo di cambio non può essere vuoto!");
+                    } else if (cambio.equalsIgnoreCase("Manuale") || cambio.equalsIgnoreCase("Automatico")) {
+                        // Standardizza la capitalizzazione
+                        cambio = cambio.substring(0, 1).toUpperCase() + cambio.substring(1).toLowerCase();
+                        auto.setTipoCambio(cambio);
+                        cambioValido = true;
+                    } else {
+                        System.out.println("ERRORE: Il tipo di cambio deve essere 'Manuale' o 'Automatico'!");
+                    }
+                }
                 
             } else if (veicolo instanceof Moto) {
                 Moto moto = (Moto) veicolo;
                 
-                System.out.print("Cilindrata: ");
-                int cilindrata = scanner.nextInt();
-                scanner.nextLine();
-                moto.setCilindrata(cilindrata);
+                // Cilindrata
+                int cilindrata = 0;
+                boolean cilindrataValida = false;
+                while (!cilindrataValida) {
+                    System.out.print("Cilindrata: ");
+                    try {
+                        String input = scanner.nextLine().trim();
+                        if (input.isEmpty()) {
+                            System.out.println("ERRORE: La cilindrata non può essere vuota!");
+                            continue;
+                        }
+                        cilindrata = Integer.parseInt(input);
+                        
+                        if (cilindrata > 0) {
+                            moto.setCilindrata(cilindrata);
+                            cilindrataValida = true;
+                        } else {
+                            System.out.println("ERRORE: La cilindrata deve essere maggiore di 0!");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("ERRORE: Inserire un numero valido per la cilindrata!");
+                    }
+                }
                 
-                System.out.print("Tipo moto (Sport/Touring/Naked/Enduro): ");
-                String tipoMoto = scanner.nextLine().trim();
-                moto.setTipoMoto(tipoMoto);
+                // Tipo moto
+                String tipoMoto = "";
+                boolean tipoMotoValido = false;
+                String[] tipiMotoValidi = {"Sport", "Touring", "Naked", "Enduro"};
+                
+                while (!tipoMotoValido) {
+                    System.out.print("Tipo moto (Sport/Touring/Naked/Enduro): ");
+                    tipoMoto = scanner.nextLine().trim();
+                    
+                    if (tipoMoto.isEmpty()) {
+                        System.out.println("ERRORE: Il tipo di moto non può essere vuoto!");
+                    } else {
+                        // Controlla se il tipo inserito è valido (case-insensitive)
+                        for (String tipoValido : tipiMotoValidi) {
+                            if (tipoMoto.equalsIgnoreCase(tipoValido)) {
+                                // Standardizza la capitalizzazione
+                                tipoMoto = tipoValido;
+                                moto.setTipoMoto(tipoMoto);
+                                tipoMotoValido = true;
+                                break;
+                            }
+                        }
+                        
+                        if (!tipoMotoValido) {
+                            System.out.println("ERRORE: Il tipo di moto deve essere uno tra: Sport, Touring, Naked, Enduro!");
+                        }
+                    }
+                }
                 
             } else if (veicolo instanceof Furgone) {
                 Furgone furgone = (Furgone) veicolo;
                 
-                System.out.print("Capacità di carico (kg): ");
-                double capacita = scanner.nextDouble();
-                scanner.nextLine();
-                furgone.setCapacitaCarico(capacita);
+                // Capacità di carico
+                double capacita = 0;
+                boolean capacitaValida = false;
+                while (!capacitaValida) {
+                    System.out.print("Capacità di carico (m³): ");
+                    try {
+                        String input = scanner.nextLine().trim();
+                        if (input.isEmpty()) {
+                            System.out.println("ERRORE: La capacità di carico non può essere vuota!");
+                            continue;
+                        }
+                        capacita = Double.parseDouble(input);
+                        
+                        if (capacita > 0) {
+                            furgone.setCapacitaCarico(capacita);
+                            capacitaValida = true;
+                        } else {
+                            System.out.println("ERRORE: La capacità di carico deve essere maggiore di 0!");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("ERRORE: Inserire un numero valido per la capacità!");
+                    }
+                }
                 
-                System.out.print("Cassone chiuso? (S/N): ");
-                String cassone = scanner.nextLine().trim().toUpperCase();
-                furgone.setCassoneChiuso(cassone.equals("S"));
+                // Cassone chiuso
+                boolean cassoneValido = false;
+                while (!cassoneValido) {
+                    System.out.print("Cassone chiuso? (S/N): ");
+                    String cassone = scanner.nextLine().trim().toLowerCase();
+                    if (cassone.equals("s") || cassone.equals("si") || cassone.equals("sì")) {
+                        furgone.setCassoneChiuso(true);
+                        cassoneValido = true;
+                    } else if (cassone.equals("n") || cassone.equals("no")) {
+                        furgone.setCassoneChiuso(false);
+                        cassoneValido = true;
+                    } else {
+                        System.out.println("ERRORE: Rispondere S (sì) o N (no)!");
+                    }
+                }
             }
             
             // Targa - controllata per ultima per evitare duplicati
@@ -278,12 +402,14 @@ public class Main {
     private static void cercaVeicolo() {
         System.out.println("\n=== CERCA VEICOLO ===");
         
-        System.out.print("Inserisci la targa da cercare: ");
-        String targa = scanner.nextLine().trim();
-        
-        if (targa.isEmpty()) {
-            System.out.println("ERRORE: La targa non può essere vuota!");
-            return;
+        String targa = "";
+        while (targa.isEmpty()) {
+            System.out.print("Inserisci la targa da cercare: ");
+            targa = scanner.nextLine().trim().toUpperCase();
+            
+            if (targa.isEmpty()) {
+                System.out.println("ERRORE: La targa non può essere vuota!");
+            }
         }
         
         Veicolo veicolo = gestioneInventario.cercaPerTarga(targa);
@@ -299,12 +425,14 @@ public class Main {
     private static void rimuoviVeicolo() {
         System.out.println("\n=== RIMUOVI VEICOLO ===");
         
-        System.out.print("Inserisci la targa del veicolo da rimuovere: ");
-        String targa = scanner.nextLine().trim();
-        
-        if (targa.isEmpty()) {
-            System.out.println("ERRORE: La targa non può essere vuota!");
-            return;
+        String targa = "";
+        while (targa.isEmpty()) {
+            System.out.print("Inserisci la targa del veicolo da rimuovere: ");
+            targa = scanner.nextLine().trim().toUpperCase();
+            
+            if (targa.isEmpty()) {
+                System.out.println("ERRORE: La targa non può essere vuota!");
+            }
         }
         
         // Mostra prima il veicolo che si sta per rimuovere
@@ -313,18 +441,29 @@ public class Main {
             System.out.println("\nVeicolo da rimuovere:");
             System.out.println(veicolo);
             
-            System.out.print("\nConfermi la rimozione? (S/N): ");
-            String conferma = scanner.nextLine().trim().toUpperCase();
-            
-            if (conferma.equals("S")) {
-                try {
-                    gestioneInventario.rimuoviVeicolo(targa);
-                    System.out.println("Veicolo rimosso con successo!");
-                } catch (ConcessionariaException e) {
-                    System.err.println("Errore nella rimozione: " + e.getMessage());
+            String conferma = "";
+            boolean confermaValida = false;
+            while (!confermaValida) {
+                System.out.print("\nConfermi la rimozione? (S/N): ");
+                conferma = scanner.nextLine().trim().toUpperCase();
+                
+                if (conferma.isEmpty()) {
+                    System.out.println("ERRORE: Inserire S per confermare o N per annullare!");
+                } else if (conferma.equals("S") || conferma.equals("SI") || conferma.equals("SÌ")) {
+                    try {
+                        gestioneInventario.rimuoviVeicolo(targa);
+                        System.out.println("Veicolo rimosso con successo!");
+                        confermaValida = true;
+                    } catch (ConcessionariaException e) {
+                        System.err.println("Errore nella rimozione: " + e.getMessage());
+                        confermaValida = true;
+                    }
+                } else if (conferma.equals("N") || conferma.equals("NO")) {
+                    System.out.println("Rimozione annullata.");
+                    confermaValida = true;
+                } else {
+                    System.out.println("ERRORE: Rispondere S (sì) o N (no)!");
                 }
-            } else {
-                System.out.println("Rimozione annullata.");
             }
         } else {
             System.out.println("Nessun veicolo trovato con targa: " + targa);
@@ -334,12 +473,16 @@ public class Main {
     private static void visualizzaPerTipo() {
         System.out.println("\n=== VISUALIZZA PER TIPO ===");
         
-        System.out.print("Inserisci il tipo (AUTO/MOTO/FURGONE): ");
-        String tipo = scanner.nextLine().toUpperCase().trim();
-        
-        if (!tipo.equals("AUTO") && !tipo.equals("MOTO") && !tipo.equals("FURGONE")) {
-            System.out.println("Tipo non valido!");
-            return;
+        String tipo = "";
+        while (!tipo.equals("AUTO") && !tipo.equals("MOTO") && !tipo.equals("FURGONE")) {
+            System.out.print("Inserisci il tipo (AUTO/MOTO/FURGONE): ");
+            tipo = scanner.nextLine().toUpperCase().trim();
+            
+            if (tipo.isEmpty()) {
+                System.out.println("ERRORE: Il tipo non può essere vuoto!");
+            } else if (!tipo.equals("AUTO") && !tipo.equals("MOTO") && !tipo.equals("FURGONE")) {
+                System.out.println("ERRORE: Tipo non valido! Inserire AUTO, MOTO o FURGONE");
+            }
         }
         
         IteratoreInventario iteratore = gestioneInventario.creaIteratorePerTipo(tipo);
@@ -365,24 +508,50 @@ public class Main {
         double prezzoMin = 0;
         double prezzoMax = 0;
         
-        try {
+        // Prezzo minimo con validazione
+        boolean prezzoMinValido = false;
+        while (!prezzoMinValido) {
             System.out.print("Prezzo minimo: ");
-            prezzoMin = scanner.nextDouble();
-            scanner.nextLine();
-            
-            System.out.print("Prezzo massimo: ");
-            prezzoMax = scanner.nextDouble();
-            scanner.nextLine();
-            
-            if (prezzoMin < 0 || prezzoMax < prezzoMin) {
-                System.out.println("Range di prezzo non valido!");
-                return;
+            try {
+                String input = scanner.nextLine().trim();
+                if (input.isEmpty()) {
+                    System.out.println("ERRORE: Il prezzo minimo non può essere vuoto!");
+                    continue;
+                }
+                prezzoMin = Double.parseDouble(input);
+                
+                if (prezzoMin < 0) {
+                    System.out.println("ERRORE: Il prezzo minimo non può essere negativo!");
+                } else {
+                    prezzoMinValido = true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("ERRORE: Inserire un numero valido per il prezzo minimo!");
             }
-            
-        } catch (InputMismatchException e) {
-            System.out.println("ERRORE: Inserire un numero valido!");
-            scanner.nextLine();
-            return;
+        }
+        
+        // Prezzo massimo con validazione
+        boolean prezzoMaxValido = false;
+        while (!prezzoMaxValido) {
+            System.out.print("Prezzo massimo: ");
+            try {
+                String input = scanner.nextLine().trim();
+                if (input.isEmpty()) {
+                    System.out.println("ERRORE: Il prezzo massimo non può essere vuoto!");
+                    continue;
+                }
+                prezzoMax = Double.parseDouble(input);
+                
+                if (prezzoMax < 0) {
+                    System.out.println("ERRORE: Il prezzo massimo non può essere negativo!");
+                } else if (prezzoMax < prezzoMin) {
+                    System.out.println("ERRORE: Il prezzo massimo deve essere maggiore o uguale al prezzo minimo!");
+                } else {
+                    prezzoMaxValido = true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("ERRORE: Inserire un numero valido per il prezzo massimo!");
+            }
         }
         
         IteratoreInventario iteratore = gestioneInventario.creaIteratorePerPrezzo(prezzoMin, prezzoMax);

@@ -116,7 +116,7 @@ public class ExceptionHandler {
     /**
      * Valida che un oggetto non sia null, altrimenti lancia eccezione user-friendly
      */
-    public static void requireNonNull(Object obj, String nomeParametro) {
+    public static void requireNonNull(Object obj, String nomeParametro) throws ConcessionariaException {
         if (obj == null) {
             throw new ConcessionariaException("Il parametro '" + nomeParametro + "' è obbligatorio");
         }
@@ -125,7 +125,7 @@ public class ExceptionHandler {
     /**
      * Valida che una stringa non sia vuota
      */
-    public static void requireNonEmpty(String str, String nomeParametro) {
+    public static void requireNonEmpty(String str, String nomeParametro) throws ConcessionariaException {
         if (str == null || str.trim().isEmpty()) {
             throw new ConcessionariaException("Il parametro '" + nomeParametro + "' non può essere vuoto");
         }
@@ -134,7 +134,7 @@ public class ExceptionHandler {
     /**
      * Valida che un numero sia positivo
      */
-    public static void requirePositive(double number, String nomeParametro) {
+    public static void requirePositive(double number, String nomeParametro) throws ConcessionariaException {
         if (number <= 0) {
             throw new ConcessionariaException("Il parametro '" + nomeParametro + "' deve essere maggiore di zero");
         }
@@ -143,7 +143,7 @@ public class ExceptionHandler {
     /**
      * Valida che un numero sia in un range
      */
-    public static void requireInRange(double number, double min, double max, String nomeParametro) {
+    public static void requireInRange(double number, double min, double max, String nomeParametro) throws ConcessionariaException {
         if (number < min || number > max) {
             throw new ConcessionariaException(
                 String.format("Il parametro '%s' deve essere tra %.2f e %.2f", nomeParametro, min, max)
@@ -154,7 +154,7 @@ public class ExceptionHandler {
     /**
      * Gestisce eccezioni durante operazioni I/O
      */
-    public static void gestisciIOException(java.io.IOException e, String operazione) {
+    public static void gestisciIOException(java.io.IOException e, String operazione) throws ConcessionariaException {
         logger.log(Level.SEVERE, "Errore I/O durante: " + operazione, e);
         
         String messaggio;
@@ -174,7 +174,7 @@ public class ExceptionHandler {
     /**
      * Esegue un'operazione con gestione automatica delle eccezioni
      */
-    public static <T> T eseguiConGestioneErrori(java.util.concurrent.Callable<T> operazione, String descrizione) {
+    public static <T> T eseguiConGestioneErrori(java.util.concurrent.Callable<T> operazione, String descrizione) throws ConcessionariaException {
         try {
             return operazione.call();
         } catch (ConcessionariaException e) {
