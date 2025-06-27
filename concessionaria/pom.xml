@@ -21,15 +21,12 @@
         <junit.version>4.13.2</junit.version>
     </properties>
     
-    <dependencies>
-        <!-- JUnit per i test -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.13.2</version>
+    <scope>test</scope>
+</dependency>
     
     <build>
         <plugins>
