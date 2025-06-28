@@ -5,21 +5,15 @@ import com.concessionaria.model.*;
 import java.io.*;
 import java.util.*;
 
-/**
- * Gestisce salvataggio e caricamento veicoli su file CSV
- */
+
 public class FileManager {
     private static final String FILE_NAME = "inventario.csv";
     
-    /**
-     * Salva lista veicoli su file
-     */
+
     public static void salvaInventario(List<Veicolo> veicoli) throws ConcessionariaException {
         try (PrintWriter writer = new PrintWriter(FILE_NAME)) {
-            // Header
             writer.println("Tipo,Marca,Modello,Anno,Prezzo,Targa,Extra1,Extra2");
             
-            // Ogni veicolo
             for (Veicolo v : veicoli) {
                 writer.println(veicoloToString(v));
             }
@@ -29,19 +23,15 @@ public class FileManager {
         }
     }
     
-    /**
-     * Carica veicoli da file
-     */
+
     public static List<Veicolo> caricaInventario() throws ConcessionariaException {
         List<Veicolo> veicoli = new ArrayList<>();
         
         try (Scanner scanner = new Scanner(new File(FILE_NAME))) {
-            // Skip header
             if (scanner.hasNextLine()) {
                 scanner.nextLine();
             }
             
-            // Leggi righe
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 if (!line.isEmpty()) {
@@ -50,7 +40,6 @@ public class FileManager {
             }
             
         } catch (FileNotFoundException e) {
-            // File non esiste = inventario vuoto
             return veicoli;
         } catch (Exception e) {
             throw new ConcessionariaException("Errore caricamento: " + e.getMessage());
