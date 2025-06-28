@@ -2,12 +2,12 @@ package com.concessionaria.model;
 
 public class Auto extends Veicolo {
     private int numeroPorte;
-    private String tipoCambio; // Manuale, Automatico
+    private String tipoCambio;
     
     public Auto(String marca, String modello, int anno, double prezzo) {
         super(marca, modello, anno, prezzo);
-        this.numeroPorte = 5; // default
-        this.tipoCambio = "Manuale"; // default
+        this.numeroPorte = 5; 
+        this.tipoCambio = "Manuale"; 
     }
     
     public int getNumeroPorte() {

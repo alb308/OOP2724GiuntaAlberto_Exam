@@ -30,7 +30,6 @@ public class CompositePatternTest {
         
         VeicoloFoglia foglia = new VeicoloFoglia(moto);
         
-        // Test che il metodo visualizza non lanci eccezioni
         try {
             foglia.visualizza();
         } catch (Exception e) {
@@ -40,7 +39,6 @@ public class CompositePatternTest {
     
     @Test
     public void testVeicoloFogliaConDiversiTipi() {
-        // Test con Auto
         Auto auto = new Auto("Toyota", "Yaris", 2023, 20000);
         auto.setTarga("AA111BB");
         VeicoloFoglia fogliaAuto = new VeicoloFoglia(auto);
@@ -48,7 +46,6 @@ public class CompositePatternTest {
         assertEquals("Toyota Yaris", fogliaAuto.getNome());
         assertEquals(20000, fogliaAuto.getPrezzoTotale(), 0.01);
         
-        // Test con Moto
         Moto moto = new Moto("Yamaha", "R1", 2023, 18000);
         moto.setTarga("CC222DD");
         VeicoloFoglia fogliaMoto = new VeicoloFoglia(moto);
@@ -56,7 +53,6 @@ public class CompositePatternTest {
         assertEquals("Yamaha R1", fogliaMoto.getNome());
         assertEquals(18000, fogliaMoto.getPrezzoTotale(), 0.01);
         
-        // Test con Furgone
         Furgone furgone = new Furgone("Iveco", "Daily", 2023, 35000);
         furgone.setTarga("EE333FF");
         VeicoloFoglia fogliaFurgone = new VeicoloFoglia(furgone);
@@ -70,13 +66,11 @@ public class CompositePatternTest {
         Auto auto = new Auto("Ford", "Fiesta", 2023, 22000);
         auto.setTarga("GG444HH");
         
-        // Test che VeicoloFoglia implementi correttamente l'interfaccia
         ComponenteCatalogo componente = new VeicoloFoglia(auto);
         
         assertNotNull(componente.getNome());
         assertTrue(componente.getPrezzoTotale() > 0);
         
-        // Test che il metodo visualizza sia chiamabile
         try {
             componente.visualizza();
         } catch (Exception e) {
@@ -91,13 +85,10 @@ public class CompositePatternTest {
         
         VeicoloFoglia foglia = new VeicoloFoglia(auto);
         
-        // Prezzo iniziale
         assertEquals(17000, foglia.getPrezzoTotale(), 0.01);
         
-        // Modifica il prezzo del veicolo
         auto.setPrezzo(19000);
         
-        // Verifica che il prezzo sia aggiornato nella foglia
         assertEquals(19000, foglia.getPrezzoTotale(), 0.01);
     }
 }

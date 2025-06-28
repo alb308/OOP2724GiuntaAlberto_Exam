@@ -53,14 +53,13 @@ public class IteratorTest {
         IteratoreInventario iterator = new IteratoreVeicoliConcreto(veicoliVuoti);
         
         assertFalse(iterator.hasNext());
-        iterator.next(); // Dovrebbe lanciare eccezione
+        iterator.next(); 
     }
     
     @Test
     public void testIteratoreReset() {
         IteratoreInventario iterator = new IteratoreVeicoliConcreto(veicoli);
         
-        // Prima iterazione
         int count1 = 0;
         while (iterator.hasNext()) {
             iterator.next();
@@ -69,11 +68,9 @@ public class IteratorTest {
         assertEquals(3, count1);
         assertFalse(iterator.hasNext());
         
-        // Reset
         iterator.reset();
         assertTrue(iterator.hasNext());
         
-        // Seconda iterazione
         int count2 = 0;
         while (iterator.hasNext()) {
             iterator.next();
@@ -84,7 +81,6 @@ public class IteratorTest {
     
     @Test
     public void testIteratoreFiltrato() {
-        // Filtra solo le auto
         IteratoreInventario iterator = new IteratoreFiltrato(veicoli, 
             v -> v instanceof Auto);
         
@@ -97,12 +93,12 @@ public class IteratorTest {
             count++;
         }
         
-        assertEquals(1, count); // Solo 1 auto nella lista
+        assertEquals(1, count); 
     }
     
     @Test
     public void testIteratoreFiltratoPerPrezzo() {
-        // Filtra veicoli con prezzo > 20000
+        
         IteratoreInventario iterator = new IteratoreFiltrato(veicoli, 
             v -> v.getPrezzo() > 20000);
         
@@ -113,12 +109,12 @@ public class IteratorTest {
             count++;
         }
         
-        assertEquals(1, count); // Solo il furgone (35000)
+        assertEquals(1, count); 
     }
     
     @Test
     public void testIteratoreFiltratoNessunRisultato() {
-        // Filtra veicoli con prezzo > 100000 (nessuno)
+        
         IteratoreInventario iterator = new IteratoreFiltrato(veicoli, 
             v -> v.getPrezzo() > 100000);
         
@@ -138,19 +134,18 @@ public class IteratorTest {
         IteratoreInventario iterator = new IteratoreFiltrato(veicoli, 
             v -> v instanceof Auto || v instanceof Moto);
         
-        // Prima iterazione
+       
         int count1 = 0;
         while (iterator.hasNext()) {
             iterator.next();
             count1++;
         }
-        assertEquals(2, count1); // Auto + Moto
+        assertEquals(2, count1); 
         
-        // Reset
+        
         iterator.reset();
         assertTrue(iterator.hasNext());
         
-        // Seconda iterazione
         int count2 = 0;
         while (iterator.hasNext()) {
             iterator.next();
@@ -166,7 +161,6 @@ public class IteratorTest {
         
         assertFalse(iterator.hasNext());
         
-        // Reset su lista vuota
         iterator.reset();
         assertFalse(iterator.hasNext());
     }

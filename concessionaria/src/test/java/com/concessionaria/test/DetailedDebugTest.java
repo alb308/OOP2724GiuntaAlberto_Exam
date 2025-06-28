@@ -14,7 +14,6 @@ public class DetailedDebugTest {
         try {
             System.out.println("=== DEBUG TEST DETTAGLIATO ===");
             
-            // 1. Test creazione Auto
             System.out.println("\n1. Test creazione Auto:");
             Auto auto = new Auto("Fiat", "Panda", 2023, 15000);
             System.out.println("Auto dopo costruttore:");
@@ -23,14 +22,12 @@ public class DetailedDebugTest {
             System.out.println("  Targa: '" + auto.getTarga() + "'");
             System.out.println("  Targa == null: " + (auto.getTarga() == null));
             
-            // 2. Test setTarga
             System.out.println("\n2. Test setTarga:");
             auto.setTarga("AB123CD");
             System.out.println("Auto dopo setTarga('AB123CD'):");
             System.out.println("  Targa: '" + auto.getTarga() + "'");
             System.out.println("  Targa.length(): " + (auto.getTarga() != null ? auto.getTarga().length() : "null"));
             
-            // 3. Test salvataggio CSV
             System.out.println("\n3. Test salvataggio CSV:");
             Path testFile = Paths.get("debug_test.csv");
             List<Auto> autos = new ArrayList<>();
@@ -46,13 +43,11 @@ public class DetailedDebugTest {
                 writer.newLine();
             }
             
-            // 4. Test lettura CSV
             System.out.println("\n4. Test lettura CSV:");
             String fileContent = new String(Files.readAllBytes(testFile));
             System.out.println("Contenuto file:");
             System.out.println(fileContent);
             
-            // 5. Test parsing CSV
             System.out.println("\n5. Test parsing CSV:");
             try (BufferedReader reader = Files.newBufferedReader(testFile)) {
                 String header = reader.readLine();
@@ -73,7 +68,6 @@ public class DetailedDebugTest {
                         System.out.println("Targa estratta: '" + targa + "'");
                         System.out.println("Targa.length(): " + targa.length());
                         
-                        // Test creazione auto da CSV
                         Auto autoFromCsv = new Auto(parts[1].trim(), parts[2].trim(), 
                             Integer.parseInt(parts[3].trim()), Double.parseDouble(parts[4].trim()));
                         
@@ -89,7 +83,6 @@ public class DetailedDebugTest {
                 }
             }
             
-            // Cleanup
             Files.deleteIfExists(testFile);
             
         } catch (Exception e) {
@@ -101,7 +94,6 @@ public class DetailedDebugTest {
         String tipo = auto.getClass().getSimpleName();
         String dettagli = String.format("%d porte;%s", auto.getNumeroPorte(), auto.getTipoCambio());
         
-        // Usa formattazione inglese per i decimali (punto invece di virgola)
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
         DecimalFormat df = new DecimalFormat("#0.00", symbols);
         String prezzoFormatted = df.format(auto.getPrezzo());

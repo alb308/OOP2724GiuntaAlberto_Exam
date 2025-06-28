@@ -45,7 +45,6 @@ public class ExceptionHandlerTest {
     public void testRequireNonNull() {
         try {
             ExceptionHandler.requireNonNull("test", "parametro");
-            // Se arriva qui, è ok
         } catch (ConcessionariaException e) {
             fail("Non dovrebbe lanciare eccezione per valore non null");
         }
@@ -60,7 +59,6 @@ public class ExceptionHandlerTest {
     public void testRequireNonEmpty() {
         try {
             ExceptionHandler.requireNonEmpty("test", "stringa");
-            // Se arriva qui, è ok
         } catch (ConcessionariaException e) {
             fail("Non dovrebbe lanciare eccezione per stringa non vuota");
         }
@@ -80,7 +78,6 @@ public class ExceptionHandlerTest {
     public void testRequirePositive() {
         try {
             ExceptionHandler.requirePositive(10.5, "numero");
-            // Se arriva qui, è ok
         } catch (ConcessionariaException e) {
             fail("Non dovrebbe lanciare eccezione per numero positivo");
         }
@@ -100,7 +97,6 @@ public class ExceptionHandlerTest {
     public void testRequireInRange() {
         try {
             ExceptionHandler.requireInRange(15, 10, 20, "numero");
-            // Se arriva qui, è ok
         } catch (ConcessionariaException e) {
             fail("Non dovrebbe lanciare eccezione per numero nel range");
         }

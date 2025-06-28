@@ -14,8 +14,8 @@ public class ModelTest {
         assertEquals("Panda", auto.getModello());
         assertEquals(2023, auto.getAnno());
         assertEquals(15000, auto.getPrezzo(), 0.01);
-        assertEquals(5, auto.getNumeroPorte()); // default
-        assertEquals("Manuale", auto.getTipoCambio()); // default
+        assertEquals(5, auto.getNumeroPorte()); 
+        assertEquals("Manuale", auto.getTipoCambio()); 
     }
     
     @Test
@@ -34,7 +34,7 @@ public class ModelTest {
     @Test(expected = IllegalArgumentException.class)
     public void testAutoPorteNonValide() {
         Auto auto = new Auto("Fiat", "500", 2023, 16000);
-        auto.setNumeroPorte(4); // Non valido, deve essere 3 o 5
+        auto.setNumeroPorte(4); 
     }
     
     @Test
@@ -45,8 +45,8 @@ public class ModelTest {
         assertEquals("CBR", moto.getModello());
         assertEquals(2023, moto.getAnno());
         assertEquals(12000, moto.getPrezzo(), 0.01);
-        assertEquals(600, moto.getCilindrata()); // default
-        assertEquals("Naked", moto.getTipoMoto()); // default
+        assertEquals(600, moto.getCilindrata()); 
+        assertEquals("Naked", moto.getTipoMoto());
     }
     
     @Test
@@ -70,8 +70,8 @@ public class ModelTest {
         assertEquals("Daily", furgone.getModello());
         assertEquals(2023, furgone.getAnno());
         assertEquals(35000, furgone.getPrezzo(), 0.01);
-        assertEquals(10.0, furgone.getCapacitaCarico(), 0.01); // default
-        assertTrue(furgone.isCassoneChiuso()); // default true
+        assertEquals(10.0, furgone.getCapacitaCarico(), 0.01); 
+        assertTrue(furgone.isCassoneChiuso()); 
     }
     
     @Test

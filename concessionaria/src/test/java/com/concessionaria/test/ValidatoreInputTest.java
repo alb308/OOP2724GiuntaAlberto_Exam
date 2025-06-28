@@ -37,7 +37,6 @@ public class ValidatoreInputTest {
     @Test
     public void testSanitizzaStringa() {
         assertEquals("test", ValidatoreInput.sanitizzaStringa("test"));
-        // Corretto: il sanitizer rimuove solo < > " ' & ; ma mantiene il testo
         assertEquals("testscript123", ValidatoreInput.sanitizzaStringa("test<script>123"));
         assertEquals("hello OR 1=1 world", ValidatoreInput.sanitizzaStringa("hello' OR '1'='1 world"));
         assertEquals("normal text", ValidatoreInput.sanitizzaStringa("normal text"));

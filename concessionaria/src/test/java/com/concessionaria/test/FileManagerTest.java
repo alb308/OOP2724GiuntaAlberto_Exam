@@ -22,11 +22,9 @@ public class FileManagerTest {
     
     @Before
     public void setUp() throws IOException {
-        // Crea directory di test isolata
         testDirectory = Paths.get(TEST_DIR);
         testFilePath = testDirectory.resolve(TEST_FILE);
         
-        // Pulisci e ricrea directory
         deleteTestDirectory();
         Files.createDirectories(testDirectory);
     }
@@ -40,17 +38,15 @@ public class FileManagerTest {
         try {
             if (Files.exists(testDirectory)) {
                 Files.walk(testDirectory)
-                    .sorted((a, b) -> -a.compareTo(b)) // Elimina prima i file, poi le directory
+                    .sorted((a, b) -> -a.compareTo(b)) 
                     .forEach(path -> {
                         try {
                             Files.deleteIfExists(path);
                         } catch (IOException e) {
-                            // Ignora errori di eliminazione
                         }
                     });
             }
         } catch (IOException e) {
-            // Directory non eliminabile, non bloccare i test
         }
     }
     
@@ -58,10 +54,8 @@ public class FileManagerTest {
     public void testSalvaECaricaInventarioVuoto() throws IOException, ConcessionariaException {
         List<Veicolo> veicoliVuoti = new ArrayList<>();
         
-        // Salva manualmente il CSV vuoto
         salvaCsvDiretto(veicoliVuoti);
         
-        // Carica e verifica
         List<Veicolo> veicoliCaricati = caricaCsvDiretto();
         assertNotNull(veicoliCaricati);
         assertEquals(0, veicoliCaricati.size());
@@ -71,7 +65,6 @@ public class FileManagerTest {
     public void testSalvaECaricaVeicoloSingolo() throws IOException, ConcessionariaException {
         List<Veicolo> veicoli = new ArrayList<>();
         
-        // Crea un singolo veicolo
         Auto auto = new Auto("Fiat", "Panda", 2023, 15000);
         auto.setTarga("AB123CD");
         auto.setNumeroPorte(5);
@@ -79,7 +72,6 @@ public class FileManagerTest {
         
         veicoli.add(auto);
         
-        // Salva e carica
         salvaCsvDiretto(veicoli);
         List<Veicolo> veicoliCaricati = caricaCsvDiretto();
         
@@ -95,7 +87,6 @@ public class FileManagerTest {
     
     @Test
     public void testCaricaInventarioFileInesistente() throws IOException {
-        // Assicurati che il file non esista
         Files.deleteIfExists(testFilePath);
         
         List<Veicolo> veicoli = caricaCsvDiretto();
@@ -107,7 +98,6 @@ public class FileManagerTest {
     public void testSalvaECaricaDiversiTipiVeicoli() throws IOException, ConcessionariaException {
         List<Veicolo> veicoli = new ArrayList<>();
         
-        // Crea veicoli di test
         Auto auto = new Auto("Toyota", "Yaris", 2023, 18000);
         auto.setTarga("TY123AA");
         auto.setNumeroPorte(5);
@@ -127,14 +117,12 @@ public class FileManagerTest {
         veicoli.add(moto);
         veicoli.add(furgone);
         
-        // Salva e carica
         salvaCsvDiretto(veicoli);
         List<Veicolo> veicoliCaricati = caricaCsvDiretto();
         
         assertNotNull(veicoliCaricati);
         assertEquals(3, veicoliCaricati.size());
         
-        // Verifica che i tipi siano corretti
         boolean hasAuto = false, hasMoto = false, hasFurgone = false;
         for (Veicolo v : veicoliCaricati) {
             if (v instanceof Auto) hasAuto = true;
@@ -149,17 +137,14 @@ public class FileManagerTest {
     
     @Test
     public void testGestioneTargheDuplicate() throws IOException, ConcessionariaException {
-        // Crea manualmente un CSV con targhe duplicate
         String csvContent = "Tipo,Marca,Modello,Anno,Prezzo,Targa,Dettagli\n" +
                           "Auto,Fiat,500,2023,16000.00,DUPLICATE,5 porte;Manuale\n" +
                           "Auto,Ford,Fiesta,2023,18000.00,DUPLICATE,5 porte;Manuale\n";
         
         Files.write(testFilePath, csvContent.getBytes());
         
-        // Carica e verifica che i duplicati siano gestiti (dovrebbe caricare solo il primo)
         List<Veicolo> veicoliCaricati = caricaCsvDiretto();
         assertNotNull(veicoliCaricati);
-        // Se il FileManager gestisce i duplicati, dovrebbe caricare solo uno
         assertTrue("Dovrebbe caricare almeno un veicolo", veicoliCaricati.size() >= 1);
     }
     
@@ -173,7 +158,6 @@ public class FileManagerTest {
         
         salvaCsvDiretto(veicoli);
         
-        // Verifica che il file CSV sia stato creato con il formato corretto
         assertTrue("Il file CSV dovrebbe esistere", Files.exists(testFilePath));
         
         String content = new String(Files.readAllBytes(testFilePath));
@@ -181,7 +165,6 @@ public class FileManagerTest {
         assertTrue("Dovrebbe contenere i dati del veicolo", content.contains("Test"));
     }
     
-    // Metodi helper per operazioni CSV dirette (senza usare FileManager.java)
     private void salvaCsvDiretto(List<Veicolo> veicoli) throws IOException {
         try (BufferedWriter writer = Files.newBufferedWriter(testFilePath)) {
             writer.write("Tipo,Marca,Modello,Anno,Prezzo,Targa,Dettagli");
@@ -212,7 +195,6 @@ public class FileManagerTest {
                     Veicolo veicolo = csvToVeicolo(line);
                     veicoli.add(veicolo);
                 } catch (Exception e) {
-                    // Ignora righe malformate nei test
                 }
             }
         }
@@ -236,7 +218,6 @@ public class FileManagerTest {
                       furgone.isCassoneChiuso() ? "Chiuso" : "Aperto");
         }
         
-        // CORREZIONE: Usa formattazione inglese per i decimali (punto invece di virgola)
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
         DecimalFormat df = new DecimalFormat("#0.00", symbols);
         String prezzoFormatted = df.format(veicolo.getPrezzo());
@@ -247,7 +228,6 @@ public class FileManagerTest {
             veicolo.getTarga() != null ? veicolo.getTarga() : "", dettagli);
     }
     
-    // CORREZIONE: Parser CSV che gestisce correttamente i campi quotati
     private String[] parseCsvLine(String line) {
         List<String> result = new ArrayList<>();
         boolean inQuotes = false;
@@ -259,7 +239,7 @@ public class FileManagerTest {
             if (c == '"') {
                 if (i + 1 < line.length() && line.charAt(i + 1) == '"') {
                     current.append('"');
-                    i++; // Skip next quote
+                    i++; 
                 } else {
                     inQuotes = !inQuotes;
                 }
@@ -276,7 +256,6 @@ public class FileManagerTest {
     }
     
     private Veicolo csvToVeicolo(String line) throws ConcessionariaException {
-        // CORREZIONE: Usa il parser CSV corretto invece di split semplice
         String[] parts = parseCsvLine(line);
         
         if (parts.length < 7) {
@@ -295,22 +274,22 @@ public class FileManagerTest {
             case "auto":
                 Auto auto = new Auto(marca, modello, anno, prezzo);
                 auto.setTarga(targa);
-                auto.setNumeroPorte(5); // default per test
-                auto.setTipoCambio("Manuale"); // default per test
+                auto.setNumeroPorte(5); 
+                auto.setTipoCambio("Manuale"); 
                 return auto;
                 
             case "moto":
                 Moto moto = new Moto(marca, modello, anno, prezzo);
                 moto.setTarga(targa);
-                moto.setCilindrata(600); // default per test
-                moto.setTipoMoto("Sport"); // default per test
+                moto.setCilindrata(600); 
+                moto.setTipoMoto("Sport"); 
                 return moto;
                 
             case "furgone":
                 Furgone furgone = new Furgone(marca, modello, anno, prezzo);
                 furgone.setTarga(targa);
-                furgone.setCapacitaCarico(10.0); // default per test
-                furgone.setCassoneChiuso(true); // default per test
+                furgone.setCapacitaCarico(10.0);
+                furgone.setCassoneChiuso(true); 
                 return furgone;
                 
             default:
