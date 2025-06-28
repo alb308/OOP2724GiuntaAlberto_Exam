@@ -2,7 +2,7 @@ package com.concessionaria.model;
 
 public class Moto extends Veicolo {
     private int cilindrata;
-    private String tipoMoto; // Sport, Naked, Touring
+    private String tipoMoto;
     
     public Moto(String marca, String modello, int anno, double prezzo) {
         super(marca, modello, anno, prezzo);

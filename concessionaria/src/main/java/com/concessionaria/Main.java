@@ -20,7 +20,6 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("=== SISTEMA GESTIONE CONCESSIONARIA ===");
         
-        // Carica inventario esistente
         try {
             List<Veicolo> veicoliCaricati = FileManager.caricaInventario();
             for (Veicolo v : veicoliCaricati) {
@@ -66,7 +65,7 @@ public class Main {
                         break;
                     case 8:
                         esci = true;
-                        salvaInventario(); // Salva automaticamente all'uscita
+                        salvaInventario(); 
                         System.out.println("Arrivederci!");
                         break;
                     default:
@@ -119,7 +118,6 @@ public class Main {
     private static void aggiungiVeicolo() {
         System.out.println("\n=== AGGIUNGI VEICOLO ===");
         
-        // Tipo veicolo
         String tipo = "";
         while (!tipo.equals("AUTO") && !tipo.equals("MOTO") && !tipo.equals("FURGONE")) {
             System.out.print("Tipo (AUTO/MOTO/FURGONE): ");
@@ -129,7 +127,6 @@ public class Main {
             }
         }
         
-        // Marca
         String marca = "";
         while (marca.isEmpty()) {
             System.out.print("Marca: ");
@@ -139,7 +136,6 @@ public class Main {
             }
         }
         
-        // Modello
         String modello = "";
         while (modello.isEmpty()) {
             System.out.print("Modello: ");
@@ -149,7 +145,7 @@ public class Main {
             }
         }
         
-        // Anno
+        
         int anno = 0;
         boolean annoValido = false;
         while (!annoValido) {
@@ -172,7 +168,6 @@ public class Main {
             }
         }
         
-        // Prezzo
         double prezzo = 0;
         boolean prezzoValido = false;
         while (!prezzoValido) {
@@ -196,14 +191,11 @@ public class Main {
         }
         
         try {
-            // Crea il veicolo base
             Veicolo veicolo = VeicoloFactory.creaVeicolo(tipo, marca, modello, anno, prezzo);
             
-            // Richiedi informazioni aggiuntive in base al tipo
             if (veicolo instanceof Auto) {
                 Auto auto = (Auto) veicolo;
                 
-                // Numero di porte con validazione
                 int porte = 0;
                 boolean porteValide = false;
                 while (!porteValide) {
@@ -229,7 +221,6 @@ public class Main {
                     }
                 }
                 
-                // Tipo cambio
                 String cambio = "";
                 boolean cambioValido = false;
                 while (!cambioValido) {
@@ -239,7 +230,6 @@ public class Main {
                     if (cambio.isEmpty()) {
                         System.out.println("ERRORE: Il tipo di cambio non può essere vuoto!");
                     } else if (cambio.equalsIgnoreCase("Manuale") || cambio.equalsIgnoreCase("Automatico")) {
-                        // Standardizza la capitalizzazione
                         cambio = cambio.substring(0, 1).toUpperCase() + cambio.substring(1).toLowerCase();
                         auto.setTipoCambio(cambio);
                         cambioValido = true;
@@ -251,7 +241,6 @@ public class Main {
             } else if (veicolo instanceof Moto) {
                 Moto moto = (Moto) veicolo;
                 
-                // Cilindrata
                 int cilindrata = 0;
                 boolean cilindrataValida = false;
                 while (!cilindrataValida) {
@@ -275,7 +264,6 @@ public class Main {
                     }
                 }
                 
-                // Tipo moto
                 String tipoMoto = "";
                 boolean tipoMotoValido = false;
                 String[] tipiMotoValidi = {"Sport", "Touring", "Naked", "Enduro"};
@@ -287,10 +275,8 @@ public class Main {
                     if (tipoMoto.isEmpty()) {
                         System.out.println("ERRORE: Il tipo di moto non può essere vuoto!");
                     } else {
-                        // Controlla se il tipo inserito è valido (case-insensitive)
                         for (String tipoValido : tipiMotoValidi) {
                             if (tipoMoto.equalsIgnoreCase(tipoValido)) {
-                                // Standardizza la capitalizzazione
                                 tipoMoto = tipoValido;
                                 moto.setTipoMoto(tipoMoto);
                                 tipoMotoValido = true;
@@ -307,7 +293,6 @@ public class Main {
             } else if (veicolo instanceof Furgone) {
                 Furgone furgone = (Furgone) veicolo;
                 
-                // Capacità di carico
                 double capacita = 0;
                 boolean capacitaValida = false;
                 while (!capacitaValida) {
@@ -331,7 +316,6 @@ public class Main {
                     }
                 }
                 
-                // Cassone chiuso
                 boolean cassoneValido = false;
                 while (!cassoneValido) {
                     System.out.print("Cassone chiuso? (S/N): ");
@@ -348,7 +332,6 @@ public class Main {
                 }
             }
             
-            // Targa - controllata per ultima per evitare duplicati
             String targa = "";
             boolean targaValida = false;
             while (!targaValida) {
@@ -367,7 +350,6 @@ public class Main {
                 }
             }
             
-            // Aggiungi il veicolo
             gestioneInventario.aggiungiVeicolo(veicolo);
             System.out.println("\nVeicolo aggiunto con successo!");
             System.out.println(veicolo);
@@ -435,7 +417,6 @@ public class Main {
             }
         }
         
-        // Mostra prima il veicolo che si sta per rimuovere
         Veicolo veicolo = gestioneInventario.cercaPerTarga(targa);
         if (veicolo != null) {
             System.out.println("\nVeicolo da rimuovere:");
@@ -508,7 +489,6 @@ public class Main {
         double prezzoMin = 0;
         double prezzoMax = 0;
         
-        // Prezzo minimo con validazione
         boolean prezzoMinValido = false;
         while (!prezzoMinValido) {
             System.out.print("Prezzo minimo: ");
@@ -529,9 +509,7 @@ public class Main {
                 System.out.println("ERRORE: Inserire un numero valido per il prezzo minimo!");
             }
         }
-        
-        // Prezzo massimo con validazione
-        boolean prezzoMaxValido = false;
+                boolean prezzoMaxValido = false;
         while (!prezzoMaxValido) {
             System.out.print("Prezzo massimo: ");
             try {

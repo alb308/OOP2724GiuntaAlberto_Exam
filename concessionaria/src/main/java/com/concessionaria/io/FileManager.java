@@ -15,10 +15,11 @@ public class FileManager {
     private static final String BACKUP_SUFFIX = ".backup";
     private static final String TEMP_SUFFIX = ".tmp";
     private static final int MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB max
-    private static final Set<String> ALLOWED_EXTENSIONS = Set.of(".csv", ".txt");
+    private static final Set<String> ALLOWED_EXTENSIONS =
+    new HashSet<>(Arrays.asList(".csv", ".txt"));
+
     private static final SecureRandom secureRandom = new SecureRandom();
     
-    // Metodi statici per l'uso diretto dalla classe Main
     public static void salvaInventario(List<Veicolo> veicoli) throws ConcessionariaException {
         FileManager fm = new FileManager();
         try {
@@ -37,7 +38,6 @@ public class FileManager {
         }
     }
     
-    // Membri di istanza
     private final String fileName;
     private final Path dataDirectory;
     
@@ -53,12 +53,10 @@ public class FileManager {
     
     private Path initializeSecureDataDirectory() {
         try {
-            // Crea directory sicura per i dati
             Path dir = Paths.get(System.getProperty("user.dir"), "data");
             if (!Files.exists(dir)) {
                 Files.createDirectory(dir);
                 
-                // Imposta permessi restrittivi su Unix/Linux
                 if (FileSystems.getDefault().supportedFileAttributeViews().contains("posix")) {
                     Set<PosixFilePermission> perms = new HashSet<>();
                     perms.add(PosixFilePermission.OWNER_READ);
@@ -81,13 +79,11 @@ public class FileManager {
             throw new RuntimeException("Nome file non valido");
         }
         
-        // Rimuovi caratteri pericolosi e path traversal
         String sanitized = fileName.trim()
             .replaceAll("\\.\\./", "")
             .replaceAll("[\\\\/:]", "_")
             .replaceAll("[^a-zA-Z0-9._-]", "");
         
-        // Verifica estensione
         boolean hasValidExtension = false;
         for (String ext : ALLOWED_EXTENSIONS) {
             if (sanitized.toLowerCase().endsWith(ext)) {
@@ -100,7 +96,6 @@ public class FileManager {
             sanitized += ".csv";
         }
         
-        // Previeni nomi riservati del sistema
         if (isReservedFileName(sanitized)) {
             sanitized = "safe_" + sanitized;
         }
@@ -123,7 +118,6 @@ public class FileManager {
         return false;
     }
     
-    // Metodo interno per il salvataggio
     private void salvaInventarioInterno(List<Veicolo> veicoli) throws IOException, ConcessionariaException {
         if (veicoli == null) {
             throw new ConcessionariaException("Lista veicoli non può essere null");
@@ -134,13 +128,11 @@ public class FileManager {
         Path backupFile = dataDirectory.resolve(fileName + BACKUP_SUFFIX);
         
         try {
-            // Crea backup del file esistente
             if (Files.exists(filePath)) {
                 Files.copy(filePath, backupFile, StandardCopyOption.REPLACE_EXISTING);
                 logger.info("Backup creato: " + backupFile);
             }
             
-            // Scrivi su file temporaneo
             try (BufferedWriter writer = Files.newBufferedWriter(tempFile, 
                     StandardOpenOption.CREATE, 
                     StandardOpenOption.WRITE, 
@@ -158,18 +150,15 @@ public class FileManager {
                 writer.flush();
             }
             
-            // Verifica integrità del file temporaneo
             if (!verificaIntegritaFile(tempFile, veicoli.size() + 1)) {
                 throw new ConcessionariaException("File temporaneo corrotto");
             }
             
-            // Sostituisci atomicamente il file originale
             Files.move(tempFile, filePath, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
             
             logger.info("Inventario salvato con successo. Veicoli: " + veicoli.size());
             
         } catch (IOException e) {
-            // Ripristina dal backup in caso di errore
             if (Files.exists(backupFile)) {
                 try {
                     Files.copy(backupFile, filePath, StandardCopyOption.REPLACE_EXISTING);
@@ -178,8 +167,7 @@ public class FileManager {
                     logger.severe("Impossibile ripristinare dal backup: " + backupError.getMessage());
                 }
             }
-            
-            // Pulisci file temporaneo
+
             try {
                 Files.deleteIfExists(tempFile);
             } catch (IOException ignored) {}
@@ -189,7 +177,7 @@ public class FileManager {
         }
     }
     
-    // Metodo interno per il caricamento
+
     private List<Veicolo> caricaInventarioInterno() throws IOException, ConcessionariaException {
         Path filePath = dataDirectory.resolve(fileName);
         
@@ -198,7 +186,7 @@ public class FileManager {
             return new ArrayList<>();
         }
         
-        // Verifica dimensione file
+
         long fileSize = Files.size(filePath);
         if (fileSize > MAX_FILE_SIZE) {
             logger.severe("File troppo grande: " + fileSize + " bytes");
@@ -214,7 +202,7 @@ public class FileManager {
         Set<String> targheCaricate = new HashSet<>();
         
         try (BufferedReader reader = Files.newBufferedReader(filePath)) {
-            String line = reader.readLine(); // Skip header
+            String line = reader.readLine(); 
             
             if (line == null || !isValidHeader(line)) {
                 throw new ConcessionariaException("Header del file non valido");
@@ -229,12 +217,10 @@ public class FileManager {
                 }
                 
                 try {
-                    // Sanitizza la linea
                     line = sanitizeCsvLine(line);
                     
                     Veicolo veicolo = csvToVeicolo(line);
                     
-                    // Previeni duplicati
                     if (targheCaricate.contains(veicolo.getTarga())) {
                         logger.warning("Targa duplicata ignorata: " + veicolo.getTarga() + " alla linea " + lineNumber);
                         continue;
@@ -245,20 +231,20 @@ public class FileManager {
                     
                 } catch (ConcessionariaException e) {
                     logger.warning("Errore alla linea " + lineNumber + ": " + e.getMessage());
-                    // Continua con le altre linee invece di fallire completamente
+                  
                 } catch (Exception e) {
                     logger.warning("Errore generico alla linea " + lineNumber + ": " + e.getMessage());
-                    // Continua con le altre linee invece di fallire completamente
-                }
+                
             }
             
             logger.info("Inventario caricato con successo. Veicoli: " + veicoli.size());
             return veicoli;
             
-        } catch (IOException e) {
+        }} catch (IOException e) {
             logger.severe("Errore durante la lettura del file: " + e.getMessage());
             throw new ConcessionariaException("Errore durante il caricamento dell'inventario", e);
         }
+        return veicoli;
     }
     
     private boolean isValidHeader(String header) {
@@ -267,7 +253,6 @@ public class FileManager {
     }
     
     private String sanitizeCsvLine(String line) {
-        // Rimuovi caratteri di controllo e non stampabili
         return line.replaceAll("[\\p{Cntrl}&&[^\t]]", "")
                   .replaceAll("[^\\x20-\\x7E,]", "")
                   .trim();
@@ -299,7 +284,6 @@ public class FileManager {
                       furgone.isCassoneChiuso() ? "Chiuso" : "Aperto");
         }
         
-        // Escapa i valori CSV
         return String.format("%s,%s,%s,%d,%.2f,%s,%s",
             escapeCsv(tipo),
             escapeCsv(veicolo.getMarca()),
@@ -314,11 +298,8 @@ public class FileManager {
     private String escapeCsv(String value) {
         if (value == null) return "";
         
-        // Se contiene virgole, virgolette o newline, deve essere quotato
         if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
-            // Raddoppia le virgolette interne
             value = value.replace("\"", "\"\"");
-            // Quota il valore
             return "\"" + value + "\"";
         }
         
@@ -367,7 +348,7 @@ public class FileManager {
             if (c == '"') {
                 if (i + 1 < line.length() && line.charAt(i + 1) == '"') {
                     current.append('"');
-                    i++; // Skip next quote
+                    i++;
                 } else {
                     inQuotes = !inQuotes;
                 }
