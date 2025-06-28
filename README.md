@@ -11,6 +11,7 @@ Ho scelto questo progetto perchè avendo da poco comprato una macchina, e appass
 
 1. Compilare:
 ```bash
+cd concessionaria
 mvn compile
 ```
 
