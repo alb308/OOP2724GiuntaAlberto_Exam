@@ -16,7 +16,6 @@ public abstract class Veicolo implements Serializable {
         this.prezzo = prezzo;
     }
     
-    // Getters e Setters con validazione base
     public String getMarca() {
         return marca;
     }

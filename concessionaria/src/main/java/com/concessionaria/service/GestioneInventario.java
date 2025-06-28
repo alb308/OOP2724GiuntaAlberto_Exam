@@ -26,7 +26,6 @@ public class GestioneInventario implements InventarioIterabile {
         categorie.put("MOTO", new CategoriaVeicoli("Motociclette"));
         categorie.put("FURGONE", new CategoriaVeicoli("Furgoni"));
         
-        // Aggiungi tutte le categorie al catalogo principale
         for (CategoriaVeicoli cat : categorie.values()) {
             catalogoPrincipale.aggiungi(cat);
         }
@@ -37,12 +36,10 @@ public class GestioneInventario implements InventarioIterabile {
             throw new ConcessionariaException("Il veicolo non può essere null");
         }
         
-        // Validazione del veicolo
         ValidatoreInput.validaVeicolo(veicolo);
         
         veicoli.add(veicolo);
         
-        // Aggiungi al composite pattern
         VeicoloFoglia foglia = new VeicoloFoglia(veicolo);
         String tipoVeicolo = veicolo.getClass().getSimpleName().toUpperCase();
         
@@ -73,7 +70,6 @@ public class GestioneInventario implements InventarioIterabile {
         
         veicoli.remove(daRimuovere);
         
-        // Rimuovi anche dal composite
         rimuoviDalCatalogo(daRimuovere);
         
         LOGGER.info("Rimosso veicolo con targa: " + targa);
@@ -115,7 +111,6 @@ public class GestioneInventario implements InventarioIterabile {
         return catalogoPrincipale;
     }
     
-    // Implementazione Iterator Pattern
     @Override
     public IteratoreInventario creaIteratore() {
         return new IteratoreVeicoliConcreto(veicoli);

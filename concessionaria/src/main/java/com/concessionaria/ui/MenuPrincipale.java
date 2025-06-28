@@ -1,4 +1,3 @@
-// File: MenuPrincipale.java
 package com.concessionaria.ui;
 
 import com.concessionaria.service.GestioneInventario;
@@ -24,7 +23,6 @@ public class MenuPrincipale {
     public void avvia() {
         System.out.println("\n=== BENVENUTO NEL SISTEMA DI GESTIONE CONCESSIONARIA ===\n");
         
-        // Carica dati esistenti
         caricaDati();
         
         boolean continua = true;
@@ -95,7 +93,6 @@ public class MenuPrincipale {
         System.out.println("\n=== AGGIUNGI NUOVO VEICOLO ===");
         
         try {
-            // Tipo veicolo
             System.out.println("\nTipo veicolo:");
             System.out.println("1. Auto");
             System.out.println("2. Moto");
@@ -113,7 +110,6 @@ public class MenuPrincipale {
                     return;
             }
             
-            // Dati comuni
             System.out.print("\nMarca: ");
             String marca = ValidatoreInput.sanitizzaStringa(scanner.nextLine());
             
@@ -138,11 +134,9 @@ public class MenuPrincipale {
                 throw new ConcessionariaException("Formato targa non valido");
             }
             
-            // Crea veicolo
             Veicolo veicolo = VeicoloFactory.creaVeicolo(tipo, marca, modello, anno, prezzo);
             veicolo.setTarga(targa);
             
-            // Dati specifici per tipo
             if (veicolo instanceof Auto) {
                 Auto auto = (Auto) veicolo;
                 System.out.print("Numero porte (3/5): ");

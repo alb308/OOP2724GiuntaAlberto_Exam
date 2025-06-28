@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.concessionaria.test.ExceptionHandlerTest" time="0.042" tests="15" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.concessionaria.test.ExceptionHandlerTest" time="0.039" tests="15" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="IT"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Microsoft\jdk-21.0.6.7-hotspot\bin"/>
-    <property name="sun.java.command" value="C:\Users\Alberto\AppData\Local\Temp\surefire10188904686675727267\surefirebooter-20250628023223741_3.jar C:\Users\Alberto\AppData\Local\Temp\surefire10188904686675727267 2025-06-28T02-32-23_623-jvmRun1 surefire-20250628023223741_1tmp surefire_0-20250628023223741_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\Alberto\AppData\Local\Temp\surefire2942879039043311709\surefirebooter-20250628162457410_3.jar C:\Users\Alberto\AppData\Local\Temp\surefire2942879039043311709 2025-06-28T16-24-57_308-jvmRun1 surefire-20250628162457410_1tmp surefire_0-20250628162457410_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\target\test-classes;C:\Users\Alberto\Documents\GitHub\OOP2724GiuntaAlberto_Exam\concessionaria\target\classes;C:\Users\Alberto\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\Alberto\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Alberto\AppData\Local\Temp\surefire10188904686675727267\surefirebooter-20250628023223741_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Alberto\AppData\Local\Temp\surefire2942879039043311709\surefirebooter-20250628162457410_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.6+7-LTS"/>
@@ -59,8 +59,8 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testGestisciNumberFormatException" classname="com.concessionaria.test.ExceptionHandlerTest" time="0.024">
-    <system-err><![CDATA[giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler gestisciEccezione
+  <testcase name="testGestisciNumberFormatException" classname="com.concessionaria.test.ExceptionHandlerTest" time="0.015">
+    <system-err><![CDATA[giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler gestisciEccezione
 GRAVE: Eccezione in Parsing context
 java.lang.NumberFormatException: Invalid number
 	at com.concessionaria.test.ExceptionHandlerTest.testGestisciNumberFormatException(ExceptionHandlerTest.java:30)
@@ -91,17 +91,17 @@ java.lang.NumberFormatException: Invalid number
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: === DETTAGLI ECCEZIONE ===
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: Contesto: Parsing context
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: Tipo eccezione: java.lang.NumberFormatException
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: Messaggio originale: Invalid number
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: Origine: com.concessionaria.test.ExceptionHandlerTest.testGestisciNumberFormatException(ExceptionHandlerTest.java:30)
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: ========================
 ]]></system-err>
   </testcase>
@@ -109,8 +109,8 @@ GRAVE: ========================
   <testcase name="testRequireNonEmpty" classname="com.concessionaria.test.ExceptionHandlerTest" time="0.0"/>
   <testcase name="testRequireNonEmptyConStringaVuota" classname="com.concessionaria.test.ExceptionHandlerTest" time="0.0"/>
   <testcase name="testRequireNonEmptyConNull" classname="com.concessionaria.test.ExceptionHandlerTest" time="0.0"/>
-  <testcase name="testGestisciConcessionariaException" classname="com.concessionaria.test.ExceptionHandlerTest" time="0.004">
-    <system-err><![CDATA[giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler gestisciEccezione
+  <testcase name="testGestisciConcessionariaException" classname="com.concessionaria.test.ExceptionHandlerTest" time="0.006">
+    <system-err><![CDATA[giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler gestisciEccezione
 GRAVE: Eccezione in Test context
 com.concessionaria.exception.ConcessionariaException: Messaggio custom
 	at com.concessionaria.test.ExceptionHandlerTest.testGestisciConcessionariaException(ExceptionHandlerTest.java:22)
@@ -141,20 +141,20 @@ com.concessionaria.exception.ConcessionariaException: Messaggio custom
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: === DETTAGLI ECCEZIONE ===
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: Contesto: Test context
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: Tipo eccezione: com.concessionaria.exception.ConcessionariaException
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: Messaggio originale: Messaggio custom
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: ========================
 ]]></system-err>
   </testcase>
-  <testcase name="testGestisciIOException" classname="com.concessionaria.test.ExceptionHandlerTest" time="0.004">
-    <system-err><![CDATA[giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler gestisciEccezione
+  <testcase name="testGestisciIOException" classname="com.concessionaria.test.ExceptionHandlerTest" time="0.006">
+    <system-err><![CDATA[giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler gestisciEccezione
 GRAVE: Eccezione in File context
 java.io.IOException: File not found
 	at com.concessionaria.test.ExceptionHandlerTest.testGestisciIOException(ExceptionHandlerTest.java:38)
@@ -185,22 +185,22 @@ java.io.IOException: File not found
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: === DETTAGLI ECCEZIONE ===
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: Contesto: File context
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: Tipo eccezione: java.io.IOException
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: Messaggio originale: File not found
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: Origine: com.concessionaria.test.ExceptionHandlerTest.testGestisciIOException(ExceptionHandlerTest.java:38)
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: ========================
 ]]></system-err>
   </testcase>
-  <testcase name="testWrapException" classname="com.concessionaria.test.ExceptionHandlerTest" time="0.001">
-    <system-err><![CDATA[giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler wrapException
+  <testcase name="testWrapException" classname="com.concessionaria.test.ExceptionHandlerTest" time="0.002">
+    <system-err><![CDATA[giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler wrapException
 AVVERTENZA: Wrapping eccezione tecnica
 java.lang.RuntimeException: Original message
 	at com.concessionaria.test.ExceptionHandlerTest.testWrapException(ExceptionHandlerTest.java:116)
@@ -237,7 +237,7 @@ java.lang.RuntimeException: Original message
   <testcase name="testRequireNonNull" classname="com.concessionaria.test.ExceptionHandlerTest" time="0.0"/>
   <testcase name="testRequireNonNullConNull" classname="com.concessionaria.test.ExceptionHandlerTest" time="0.0"/>
   <testcase name="testGestisciEccezioneGenerica" classname="com.concessionaria.test.ExceptionHandlerTest" time="0.005">
-    <system-err><![CDATA[giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler gestisciEccezione
+    <system-err><![CDATA[giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler gestisciEccezione
 GRAVE: Eccezione in Test context
 java.lang.RuntimeException: Test exception
 	at com.concessionaria.test.ExceptionHandlerTest.testGestisciEccezioneGenerica(ExceptionHandlerTest.java:13)
@@ -268,17 +268,17 @@ java.lang.RuntimeException: Test exception
 	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: === DETTAGLI ECCEZIONE ===
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: Contesto: Test context
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: Tipo eccezione: java.lang.RuntimeException
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: Messaggio originale: Test exception
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: Origine: com.concessionaria.test.ExceptionHandlerTest.testGestisciEccezioneGenerica(ExceptionHandlerTest.java:13)
-giu 28, 2025 2:32:24 AM com.concessionaria.exception.ExceptionHandler logContextInfo
+giu 28, 2025 4:24:57 PM com.concessionaria.exception.ExceptionHandler logContextInfo
 GRAVE: ========================
 ]]></system-err>
   </testcase>

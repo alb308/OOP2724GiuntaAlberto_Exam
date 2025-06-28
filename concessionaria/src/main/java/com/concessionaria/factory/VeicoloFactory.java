@@ -1,4 +1,4 @@
-// File: VeicoloFactory.java
+
 package com.concessionaria.factory;
 
 import com.concessionaria.model.*;
@@ -9,8 +9,7 @@ public class VeicoloFactory {
     private static final Logger LOGGER = Logger.getLogger(VeicoloFactory.class.getName());
     
     public static Veicolo creaVeicolo(String tipo, String marca, String modello, 
-                                      int anno, double prezzo) throws ConcessionariaException {
-        // Validazione input
+        int anno, double prezzo) throws ConcessionariaException {
         if (tipo == null || tipo.trim().isEmpty()) {
             throw new ConcessionariaException("Il tipo di veicolo non può essere vuoto");
         }

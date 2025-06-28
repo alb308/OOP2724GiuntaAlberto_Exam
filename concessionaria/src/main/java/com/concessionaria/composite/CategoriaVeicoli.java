@@ -1,5 +1,4 @@
 package com.concessionaria.composite;
-
 import java.util.*;
 
 public class CategoriaVeicoli implements ComponenteCatalogo {
